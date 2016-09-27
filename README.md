@@ -5,5 +5,7 @@ Projeto desenvolvido no curso AngularJs Avançado - School of Net
 
 php -S localhost:8080 post.php
 
-#Banco teste: test_angular
+#Banco teste
+
+test_angular
 
