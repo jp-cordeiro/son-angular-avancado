@@ -43,7 +43,6 @@ module.exports = function ($scope,$http,$filter) {
         $scope.client = client;
         $scope.editing = true;
         $scope.msg = "";
-
     };
     $scope.save = function() {
         addClients(angular.copy($scope.client));
