@@ -1,6 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory) {
-    $scope.titulo = $filter("uppercase")("Evoluindo com Angularjs");
+module.exports = {
+    appName: "clientAPIFactory",
+    apiURL: "http://localhost:8080"
+};
+},{}],2:[function(require,module,exports){
+module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue) {
+    $scope.titulo = $filter("uppercase")(configValue.appName);
     
     $scope.clients = [];
 
@@ -63,7 +68,7 @@ module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactor
         $scope.reverse = !$scope.reverse;
     };
 };
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = function () {
     return{
         template: `
@@ -86,7 +91,7 @@ module.exports = function () {
     }
 };
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = function () {
     return {
         /**
@@ -186,7 +191,7 @@ module.exports = function () {
     }
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 require('angular');
 require('./locale/angular-locale_pt-br');
 
@@ -195,6 +200,7 @@ var maskTel = require('./diretives/maskTel');
 var alertMsg = require('./diretives/alertMsg');
 var clientAPIService = require('./services/clientAPIService');
 var clientAPIFactory = require('./services/clientAPIFactory');
+var configValue = require('./config/configValue');
 
 angular.module('app',[]);
 
@@ -203,13 +209,15 @@ angular.module('app').directive('maskTel',[maskTel]);
 //Componente de mensagem de alerta
 angular.module('app').directive('alertMsg',[alertMsg]);
 //Controller principal
-angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory',MainCtrl]);
+angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue',MainCtrl]);
 //Fabrica as funções para manipulação de clientes
-angular.module('app').factory('clientAPIFactory',['$http',clientAPIFactory]);
+angular.module('app').factory('clientAPIFactory',['$http','configValue',clientAPIFactory]);
 //Serviço para as funções para manipulação de clientes
-angular.module('app').service('clientAPIService',['$http',clientAPIService]);
+angular.module('app').service('clientAPIService',['$http','configValue',clientAPIService]);
+//Serviço para as funções para manipulação de clientes
+angular.module('app').value('configValue',configValue);
 
-},{"./controllers/MainCtrl":1,"./diretives/alertMsg":2,"./diretives/maskTel":3,"./locale/angular-locale_pt-br":5,"./services/clientAPIFactory":6,"./services/clientAPIService":7,"angular":9}],5:[function(require,module,exports){
+},{"./config/configValue":1,"./controllers/MainCtrl":2,"./diretives/alertMsg":3,"./diretives/maskTel":4,"./locale/angular-locale_pt-br":6,"./services/clientAPIFactory":7,"./services/clientAPIService":8,"angular":10}],6:[function(require,module,exports){
 
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
@@ -308,15 +316,15 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
         "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
     });
 }]);
-},{}],6:[function(require,module,exports){
-module.exports = function ($http) {
+},{}],7:[function(require,module,exports){
+module.exports = function ($http,configValue) {
 
     var _getClientes = function () {
-        return $http.get('http://localhost:8080');
+        return $http.get(configValue.apiURL);
     };
 
     var _saveClientes = function (cliente) {
-        return $http.post('http://localhost:8080',cliente);
+        return $http.post(configValue.apiURL,cliente);
     };
 
     return{
@@ -325,19 +333,19 @@ module.exports = function ($http) {
     };
 };
 
-},{}],7:[function(require,module,exports){
-module.exports = function ($http) {
+},{}],8:[function(require,module,exports){
+module.exports = function ($http,configValue) {
 
     this.getClientes = function () {
-        return $http.get('http://localhost:8080');
+        return $http.get(configValue.apiURL);
     };
 
     this.saveCliente = function (cliente) {
-        return $http.post('http://localhost:8080',cliente);
+        return $http.post(configValue.apiURL,cliente);
     };
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -32106,8 +32114,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":8}]},{},[4])
+},{"./angular":9}]},{},[5])

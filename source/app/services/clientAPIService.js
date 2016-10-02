@@ -1,10 +1,10 @@
-module.exports = function ($http) {
+module.exports = function ($http,configValue) {
 
     this.getClientes = function () {
-        return $http.get('http://localhost:8080');
+        return $http.get(configValue.apiURL);
     };
 
     this.saveCliente = function (cliente) {
-        return $http.post('http://localhost:8080',cliente);
+        return $http.post(configValue.apiURL,cliente);
     };
 };

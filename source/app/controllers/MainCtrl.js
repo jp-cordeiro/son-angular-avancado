@@ -1,5 +1,5 @@
-module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory) {
-    $scope.titulo = $filter("uppercase")("Evoluindo com Angularjs");
+module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue) {
+    $scope.titulo = $filter("uppercase")(configValue.appName);
     
     $scope.clients = [];
 
