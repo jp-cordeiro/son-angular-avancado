@@ -8,6 +8,7 @@ var clientAPIService = require('./services/clientAPIService');
 var clientAPIFactory = require('./services/clientAPIFactory');
 var bonusGenerator = require('./services/bonusGenerator');
 var configValue = require('./config/configValue');
+var configConstant = require('./config/configConstant');
 var configBonusProvider = require('./config/configBonusProvider');
 
 angular.module('app',[]);
@@ -22,9 +23,11 @@ angular.module('app').directive('alertMsg',[alertMsg]);
 angular.module('app').factory('clientAPIFactory',['$http','configValue',clientAPIFactory]);
 //Serviço para as funções para manipulação de clientes
 angular.module('app').service('clientAPIService',['$http','configValue',clientAPIService]);
-//Serviço para as funções para manipulação de clientes
+//Valores fixos
 angular.module('app').value('configValue',configValue);
+//Constantes
+angular.module('app').constant('configConstant',configConstant);
 //Provider para gerar número de bonus
 angular.module('app').provider('bonusGenerator',[bonusGenerator]);
- //Configuração para registrar o provider
-angular.module('app').config(['bonusGeneratorProvider',configBonusProvider]);
+//Configuração para registrar o provider
+angular.module('app').config(['bonusGeneratorProvider','configConstant',configBonusProvider]);

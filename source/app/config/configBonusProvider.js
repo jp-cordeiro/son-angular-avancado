@@ -1,4 +1,4 @@
-module.exports = function (bonusGeneratorProvider) {
+module.exports = function (bonusGeneratorProvider,configConstant) {
 //Perimite configurar o provider
-    bonusGeneratorProvider.setLength(10);
+    bonusGeneratorProvider.setLength(configConstant.length);
 };
