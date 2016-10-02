@@ -1,4 +1,4 @@
 module.exports = {
-    appName: "clientAPIFactory",
+    appName: "Evoluindo com AngularJs",
     apiURL: "http://localhost:8080"
 };
