@@ -4,6 +4,7 @@ require('./locale/angular-locale_pt-br');
 var MainCtrl = require('./controllers/MainCtrl');
 var maskTel = require('./diretives/maskTel');
 var alertMsg = require('./diretives/alertMsg');
+var clientAPI = require('services/clientAPIService')
 
 angular.module('app',[]);
 
@@ -13,3 +14,5 @@ angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
 //Controller principal
 angular.module('app').controller('MainCtrl',['$scope','$http','$filter',MainCtrl]);
+//
+angular.module('app').factory('clientAPIService',['$http',clientAPIService]);

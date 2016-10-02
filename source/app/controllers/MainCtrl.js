@@ -1,4 +1,4 @@
-module.exports = function ($scope,$http,$filter) {
+module.exports = function ($scope,$http,$filter,clientAPIService) {
     $scope.titulo = $filter("uppercase")("Evoluindo com Angularjs");
     
     $scope.clients = [];
@@ -10,14 +10,14 @@ module.exports = function ($scope,$http,$filter) {
     $scope.msg = "";
     
     var listClients = function(){
-        $http.get('http://localhost:8080').success(function(data,status){
+        clientAPIService.getClientes().success(function(data,status){
             //console.log(data);
             //console.log(status);
             $scope.clients = data;
         });
     };
     var addClients = function(client){
-        $http.post('http://localhost:8080',client).success(function(data,status){
+        clientAPIService.saveLicense(client).success(function(data,status){
             // console.log(data);
             // console.log(status);
             listClients();
@@ -25,7 +25,7 @@ module.exports = function ($scope,$http,$filter) {
     };
     var destroyClients = function(client){
         client.delete = true;
-        $http.post('http://localhost:8080',client).success(function(data,status){
+        clientAPIService.saveLicense(client).success(function(data,status){
             // console.log(data);
             // console.log(status);
         });
