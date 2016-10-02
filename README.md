@@ -1,5 +1,5 @@
 # son-angular-avancado
-Projeto desenvolvido no curso AngularJs Avançado - School of Net
+CRUD com AngularJs e um serviço REST básico em PHP
 
 #Comando para rodar servidor PHP na porta 8080
 
