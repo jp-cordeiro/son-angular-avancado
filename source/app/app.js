@@ -4,7 +4,8 @@ require('./locale/angular-locale_pt-br');
 var MainCtrl = require('./controllers/MainCtrl');
 var maskTel = require('./diretives/maskTel');
 var alertMsg = require('./diretives/alertMsg');
-var clientAPI = require('services/clientAPIService')
+var clientAPIService = require('./services/clientAPIService');
+var clientAPIFactory = require('./services/clientAPIFactory');
 
 angular.module('app',[]);
 
@@ -13,6 +14,8 @@ angular.module('app').directive('maskTel',[maskTel]);
 //Componente de mensagem de alerta
 angular.module('app').directive('alertMsg',[alertMsg]);
 //Controller principal
-angular.module('app').controller('MainCtrl',['$scope','$http','$filter',MainCtrl]);
-//
-angular.module('app').factory('clientAPIService',['$http',clientAPIService]);
+angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory',MainCtrl]);
+//Fabrica as funções para manipulação de clientes
+angular.module('app').factory('clientAPIFactory',['$http',clientAPIFactory]);
+//Serviço para as funções para manipulação de clientes
+angular.module('app').service('clientAPIService',['$http',clientAPIService]);
