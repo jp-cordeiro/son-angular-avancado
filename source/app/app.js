@@ -16,7 +16,7 @@ var routeConfig = require('./config/routeConfig');
 angular.module('app',['ngRoute']);
 
 //Controller principal
-angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeName',MainCtrl]);
+angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeInfo',MainCtrl]);
 
 //Diretiva de mácara para telefone.
 angular.module('app').directive('maskTel',[maskTel]);

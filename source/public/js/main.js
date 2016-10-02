@@ -17,21 +17,39 @@ module.exports = {
 },{}],4:[function(require,module,exports){
 module.exports = function ($routeProvider) {
     $routeProvider
-        .when("/clientes", {
-            templateUrl: "view/clientes.html",
+        .when("/home", {
+            templateUrl: "view/home.html",
             controller: "MainCtrl",
-            resolve:{
-                routeName: function () {
-                    return "Lista de Clientes"
+            resolve: {
+                routeInfo: function () {
+                    return {
+                        routeName: "Home",
+                        navClass: "navbar-inverse"
+                    }
                 }
             }
         })
 
+        .when("/clientes", {
+            templateUrl: "view/clientes.html",
+            controller: "MainCtrl",
+            resolve: {
+                routeInfo: function () {
+                    return {
+                        routeName: "Lista de Clientes",
+                        navClass: "navbar-default"
+                    }
+                }
+            }
+        })
+
+        .otherwise(
+            {redirectTo: "/home"})
     ;
 };
 
 },{}],5:[function(require,module,exports){
-module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue,bonusGenerator,routeName) {
+module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue,bonusGenerator,routeInfo) {
     $scope.titulo = $filter("uppercase")(configValue.appName);
 
     $scope.clients = [];
@@ -42,7 +60,9 @@ module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactor
     
     $scope.msg = "";
     
-    $scope.page = routeName;
+    $scope.page = routeInfo.routeName;
+
+    $scope.navClass = routeInfo.navClass;
 
     // var bonus = '';
     // for (var i = 5; i > 0; --i) {
@@ -245,7 +265,7 @@ var routeConfig = require('./config/routeConfig');
 angular.module('app',['ngRoute']);
 
 //Controller principal
-angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeName',MainCtrl]);
+angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeInfo',MainCtrl]);
 
 //Diretiva de mácara para telefone.
 angular.module('app').directive('maskTel',[maskTel]);
