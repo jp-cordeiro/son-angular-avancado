@@ -15,12 +15,25 @@ module.exports = function ($routeProvider) {
 
         .when("/clientes", {
             templateUrl: "view/clientes.html",
-            controller: "MainCtrl",
+            controller: "ClientesCtrl",
             resolve: {
                 routeInfo: function () {
                     return {
                         routeName: "Lista de Clientes",
                         navClass: "navbar-default"
+                    }
+                }
+            }
+        })
+
+        .when("/cliente/:id", {
+            templateUrl: "view/cliente.html",
+            controller: "ClienteCtrl",
+            resolve: {
+                routeInfo: function () {
+                    return {
+                        routeName: "Cliente",
+                        navClass: "navbar-inverse"
                     }
                 }
             }

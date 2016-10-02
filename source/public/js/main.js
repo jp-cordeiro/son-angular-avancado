@@ -32,12 +32,25 @@ module.exports = function ($routeProvider) {
 
         .when("/clientes", {
             templateUrl: "view/clientes.html",
-            controller: "MainCtrl",
+            controller: "ClientesCtrl",
             resolve: {
                 routeInfo: function () {
                     return {
                         routeName: "Lista de Clientes",
                         navClass: "navbar-default"
+                    }
+                }
+            }
+        })
+
+        .when("/cliente/:id", {
+            templateUrl: "view/cliente.html",
+            controller: "ClienteCtrl",
+            resolve: {
+                routeInfo: function () {
+                    return {
+                        routeName: "Cliente",
+                        navClass: "navbar-inverse"
                     }
                 }
             }
@@ -49,6 +62,35 @@ module.exports = function ($routeProvider) {
 };
 
 },{}],5:[function(require,module,exports){
+module.exports = function ($scope,$filter,clientAPIFactory,configValue,routeInfo,$routeParams) {
+    $scope.titulo = $filter("uppercase")(configValue.appName);
+
+    $scope.clients = [];
+
+    $scope.dia = new Date();
+    
+    $scope.total = 1500.58;
+    
+    $scope.msg = "";
+    
+    $scope.page = routeInfo.routeName;
+
+    $scope.navClass = routeInfo.navClass;
+
+    var idCliente = $routeParams.id;
+
+    
+    var listClient = function(){
+        clientAPIFactory.getCliente(idCliente).success(function(data,status){
+            //console.log(data);
+            //console.log(status);
+            $scope.client = data;
+        });
+    };
+
+    listClient();
+};
+},{}],6:[function(require,module,exports){
 module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue,bonusGenerator,routeInfo) {
     $scope.titulo = $filter("uppercase")(configValue.appName);
 
@@ -123,7 +165,29 @@ module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactor
         $scope.reverse = !$scope.reverse;
     };
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+module.exports = function ($scope,$filter,configValue,routeInfo) {
+    $scope.titulo = $filter("uppercase")(configValue.appName);
+
+    $scope.clients = [];
+
+    // $scope.dia = new Date();
+    //
+    // $scope.total = 1500.58;
+    
+    $scope.msg = "";
+    
+    $scope.page = routeInfo.routeName;
+
+    $scope.navClass = routeInfo.navClass;
+
+    // var bonus = '';
+    // for (var i = 5; i > 0; --i) {
+    //     bonus += Math.floor(Math.random() * 10);
+    // }
+
+};
+},{}],8:[function(require,module,exports){
 module.exports = function () {
     return{
         template: `
@@ -146,7 +210,7 @@ module.exports = function () {
     }
 };
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = function () {
     return {
         /**
@@ -246,12 +310,15 @@ module.exports = function () {
     }
 };
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 require('angular');
 require('angular-route');
 require('./locale/angular-locale_pt-br');
 
+
 var MainCtrl = require('./controllers/MainCtrl');
+var ClientesCtrl = require('./controllers/ClientesCtrl');
+var ClienteCtrl = require('./controllers/ClienteCtrl');
 var maskTel = require('./diretives/maskTel');
 var alertMsg = require('./diretives/alertMsg');
 var clientAPIService = require('./services/clientAPIService');
@@ -262,10 +329,15 @@ var configConstant = require('./config/configConstant');
 var configBonusProvider = require('./config/configBonusProvider');
 var routeConfig = require('./config/routeConfig');
 
+
 angular.module('app',['ngRoute']);
 
 //Controller principal
-angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeInfo',MainCtrl]);
+angular.module('app').controller('MainCtrl',['$scope','$filter','configValue','routeInfo',MainCtrl]);
+//Controller da Lista Clientes
+angular.module('app').controller('ClientesCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeInfo',ClientesCtrl]);
+//Controller de Detalhes Clientes
+angular.module('app').controller('ClienteCtrl',['$scope','$filter','clientAPIFactory','configValue','routeInfo','$routeParams',ClienteCtrl]);
 
 //Diretiva de mácara para telefone.
 angular.module('app').directive('maskTel',[maskTel]);
@@ -289,7 +361,7 @@ angular.module('app').config(['bonusGeneratorProvider','configConstant',configBo
 //Confifuração para rotas no ngRoute
 angular.module('app').config(['$routeProvider','configConstant',routeConfig]);
 
-},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/MainCtrl":5,"./diretives/alertMsg":6,"./diretives/maskTel":7,"./locale/angular-locale_pt-br":9,"./services/bonusGenerator":10,"./services/clientAPIFactory":11,"./services/clientAPIService":12,"angular":16,"angular-route":14}],9:[function(require,module,exports){
+},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/ClienteCtrl":5,"./controllers/ClientesCtrl":6,"./controllers/MainCtrl":7,"./diretives/alertMsg":8,"./diretives/maskTel":9,"./locale/angular-locale_pt-br":11,"./services/bonusGenerator":12,"./services/clientAPIFactory":13,"./services/clientAPIService":14,"angular":18,"angular-route":16}],11:[function(require,module,exports){
 
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
@@ -388,7 +460,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
         "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
     });
 }]);
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = function bonusGeneratorProvider() {
     var _length = 5;
 
@@ -414,24 +486,29 @@ module.exports = function bonusGeneratorProvider() {
     }
 };
 
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = function ($http,configValue) {
 
     var _getClientes = function () {
         return $http.get(configValue.apiURL);
     };
 
+    var _getCliente = function (id) {
+        return $http.get(configValue.apiURL + "?id=" + id);
+    };
+    
     var _saveClientes = function (cliente) {
         return $http.post(configValue.apiURL,cliente);
     };
 
     return{
         getClientes:_getClientes,
-        saveCliente:_saveClientes
+        saveCliente:_saveClientes,
+        getCliente: _getCliente
     };
 };
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function ($http,configValue) {
 
     this.getClientes = function () {
@@ -443,7 +520,7 @@ module.exports = function ($http,configValue) {
     };
 };
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1514,11 +1591,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":13}],15:[function(require,module,exports){
+},{"./angular-route":15}],17:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -33287,8 +33364,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":15}]},{},[8])
+},{"./angular":17}]},{},[10])

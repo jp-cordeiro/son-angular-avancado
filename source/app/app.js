@@ -2,7 +2,10 @@ require('angular');
 require('angular-route');
 require('./locale/angular-locale_pt-br');
 
+
 var MainCtrl = require('./controllers/MainCtrl');
+var ClientesCtrl = require('./controllers/ClientesCtrl');
+var ClienteCtrl = require('./controllers/ClienteCtrl');
 var maskTel = require('./diretives/maskTel');
 var alertMsg = require('./diretives/alertMsg');
 var clientAPIService = require('./services/clientAPIService');
@@ -13,10 +16,15 @@ var configConstant = require('./config/configConstant');
 var configBonusProvider = require('./config/configBonusProvider');
 var routeConfig = require('./config/routeConfig');
 
+
 angular.module('app',['ngRoute']);
 
 //Controller principal
-angular.module('app').controller('MainCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeInfo',MainCtrl]);
+angular.module('app').controller('MainCtrl',['$scope','$filter','configValue','routeInfo',MainCtrl]);
+//Controller da Lista Clientes
+angular.module('app').controller('ClientesCtrl',['$scope','$http','$filter','clientAPIService','clientAPIFactory','configValue','bonusGenerator','routeInfo',ClientesCtrl]);
+//Controller de Detalhes Clientes
+angular.module('app').controller('ClienteCtrl',['$scope','$filter','clientAPIFactory','configValue','routeInfo','$routeParams',ClienteCtrl]);
 
 //Diretiva de mácara para telefone.
 angular.module('app').directive('maskTel',[maskTel]);

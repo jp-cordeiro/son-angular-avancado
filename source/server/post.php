@@ -41,8 +41,15 @@ if($post){
         echo json_encode($post);exit;
     }
 }
+
+if(isset($_GET['id'])){
+    $date = find($_GET['id']);
+    echo json_encode($date);exit;
+}
+
 $date = listAll();
 echo json_encode($date);exit;
+
 function conn(){
     $conn = new \PDO("mysql:host=localhost;dbname=test_angular","root","");
     return $conn;
