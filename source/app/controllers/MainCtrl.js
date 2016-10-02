@@ -1,6 +1,6 @@
-module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue) {
+module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue,bonusGenerator) {
     $scope.titulo = $filter("uppercase")(configValue.appName);
-    
+
     $scope.clients = [];
 
     $scope.dia = new Date();
@@ -8,6 +8,12 @@ module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactor
     $scope.total = 1500.58;
     
     $scope.msg = "";
+
+    // var bonus = '';
+    // for (var i = 5; i > 0; --i) {
+    //     bonus += Math.floor(Math.random() * 10);
+    // }
+    $scope.bonus = "Cod. Bonus: " + bonusGenerator.generator();
     
     var listClients = function(){
         clientAPIFactory.getClientes().success(function(data,status){
