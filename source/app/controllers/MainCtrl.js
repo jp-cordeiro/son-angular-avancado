@@ -1,4 +1,4 @@
-module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue,bonusGenerator) {
+module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactory,configValue,bonusGenerator,routeName) {
     $scope.titulo = $filter("uppercase")(configValue.appName);
 
     $scope.clients = [];
@@ -8,6 +8,8 @@ module.exports = function ($scope,$http,$filter,clientAPIService,clientAPIFactor
     $scope.total = 1500.58;
     
     $scope.msg = "";
+    
+    $scope.page = routeName;
 
     // var bonus = '';
     // for (var i = 5; i > 0; --i) {
