@@ -1,5 +1,5 @@
 # son-angular-avancado
-CRUD com AngularJs e um serviço REST básico em PHP
+CRUD com AngularJs
 
 #Comando para rodar servidor PHP na porta 8080
 
